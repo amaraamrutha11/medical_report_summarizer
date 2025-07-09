@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Medical Report Summarizer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 30px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        input[type="file"],
+        textarea,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .note {
+            color: #555;
+            font-size: 14px;
+            text-align: center;
+        }
+        .history-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .history-link a {
+            color: #337ab7;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .history-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Medical Report Summarizer</h1>
+        <form method="POST" action="/summarize" enctype="multipart/form-data">
+            <label for="report">Paste your medical report below:</label>
+            <textarea name="report" rows="10" placeholder="Enter medical report here..."></textarea>
+
+            <label for="file">Or upload a file (PDF or DOCX):</label>
+            <input type="file" name="file" accept=".pdf, .docx">
+
+            <button type="submit">Summarize</button>
+            <p class="note">You can either paste a report or upload a file — both are supported.</p>
+        </form>
+
+        <div class="history-link">
+            <a href="/history"> View Summary History</a>
+        </div>
+    </div>
+</body>
+</html>

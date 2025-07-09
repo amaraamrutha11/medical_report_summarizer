@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Summary History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Summary History</h1>
+        <a href="/">← Back to Home</a>
+        <br><br>
+        {% if records %}
+            <ul>
+                {% for record in records %}
+                    <li>
+                        <strong>Timestamp:</strong> {{ record.timestamp }}<br>
+                        <strong>Original Report:</strong><br>
+                        <textarea rows="5" cols="80" readonly>{{ record.original_report }}</textarea><br>
+                        <strong>Summary:</strong><br>
+                        <textarea rows="3" cols="80" readonly>{{ record.summary }}</textarea>
+                        <hr>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No reports found.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
