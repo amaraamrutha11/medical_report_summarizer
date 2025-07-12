@@ -1,17 +1,18 @@
-from transformers import pipeline
+from transformers import pipeline, T5Tokenizer, T5ForConditionalGeneration
 
-# Use a lighter summarization model
-summarizer_pipeline = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6")
+# Load the lightweight T5-small model and tokenizer
+model_name = "t5-small"
+tokenizer = T5Tokenizer.from_pretrained(model_name)
+model = T5ForConditionalGeneration.from_pretrained(model_name)
 
-def summarize_text(text, max_length=130, min_length=30):
-    """
-    Summarizes the input text using a DistilBART model.
-    """
-    if not text.strip():
-        return "No input text provided."
+def summarize_text(text, max_length=150, min_length=30):
+    # Add prefix as required by T5 for summarization
+    input_text = "summarize: " + text.strip().replace("\n", " ")
 
-    try:
-        summary = summarizer_pipeline(text, max_length=max_length, min_length=min_length, do_sample=False)
-        return summary[0]['summary_text']
-    except Exception as e:
-        return f"Error during summarization: {str(e)}"
+    # Tokenize input and generate summary
+    inputs = tokenizer.encode(input_text, return_tensors="pt", max_length=512, truncation=True)
+    summary_ids = model.generate(inputs, max_length=max_length, min_length=min_length, length_penalty=2.0, num_beams=4, early_stopping=True)
+
+    # Decode and return summary
+    summary = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+    return summary
